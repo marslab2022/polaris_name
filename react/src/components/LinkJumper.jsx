@@ -12,14 +12,14 @@ export const LinkJumper = (props) => {
     console.log('jumper: ', domain, name);
 
     const getTargetRet = await getTarget(domain, name);
-    console.log(getTargetRet);
-    if (getTargetRet.status === false || !isWellFormattedAddress(getTargetRet.result)) {
+    const target = getTargetRet.result.target;
+    if (getTargetRet.status === false || !isWellFormattedAddress(target)) {
       return {status: false, result: `${name}.${domain} not registered or link not set!`};
     }
     
     switch (domain) {
       case 'page':
-        window.location.href = `https://www.arweave.net/${getTargetRet.result}`;
+        window.location.href = `https://www.arweave.net/${target}`;
         break;
     
       default:

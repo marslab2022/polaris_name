@@ -43,6 +43,7 @@ export const RegisterSteps = (props) => {
 
   const renderBind = () => {
     const onBind = async () => {
+      console.log('onBind: ', nftAddress, props.name);
       const bindRet = await mint(nftAddress, props.name);
       if (bindRet.status === false) {
         return bindRet;

@@ -10,10 +10,10 @@ import { stat } from 'fs';
 LoggerFactory.INST.logLevel('error');
 
 // addresses
-const nftSrcTxId = 'jyWISmLqhGValrNZZzrT9IsflMWoT-1saY5-rl2LnA4';
-const polarisContractAddress = 'UvGUuiyzBLYan5WXXCDdiPLiX_YWud68bxu8LP4BVyo';
-const ownerWalletAdrress = 'sHL9YFZyHE_zAppPbvw0T9p8WzLBZNpcFIkbGeXfDxo';
-export const pntAddress = "zbcVWwoUQoy71o0yO4el2UZgHbpQX5vzijezmg7Wgl4";
+const nftSrcTxId = 'aqAoCTtjDZmqwIsVdz4fnyXBz-vbKCCK3jiB6UOvK4s';
+const polarisContractAddress = 'XM5RtFL-YA8nhwLeNRJEdoF8sknEW_sWpizIHOZyWNY';
+const ownerWalletAdrress = 'u5mmTkpqlvmRiJNsB__zXmMKuKZqQyjGf72CVX7-BBU';
+export const pntAddress = "ePNak8UbmlpP3bk1pDruOHRN46kaGEmJxz4fZM-z2vg";
 
 const warp = WarpFactory.forLocal(1984);
 // const warp = WarpFactory.forTestnet();
@@ -40,7 +40,7 @@ export async function connectContract() {
   polarisContract.connectContract(polarisContractAddress);
 
   pntContract = new intelliContract(warp);
-  pntContract.connectContract(ownerWalletAdrress);
+  pntContract.connectContract(pntAddress);
 
   return {status: true, result: 'Connect contract success!'};
 }
@@ -153,7 +153,7 @@ export async function mint(nftAddress, name) {
     return {status: false, result: 'Please wait for NFT to be mined by Arweave and retry!'};
   }
   const confirmations = txRet.confirmed.number_of_confirmations;
-  if (confirmations < 10) {
+  if (confirmations === undefined || confirmations < 10) {
     return {status: false, result: `Please wait for network confirmation: ${confirmations} / 10`};
   }
 
@@ -201,7 +201,7 @@ export async function burn(domain, name) {
     return {status: false, result: 'You should have at least 0.01$AR in wallet to pay for network fee!'};
   }
   const owner = await getOwner(domain, name);
-  if (owner.status === false || owner.result !== getWalletAddress()) {
+  if (owner.status === false || owner.result.wallet !== getWalletAddress()) {
     return {status: false, result: `Can only operate names belong to you!`};
   }
 
@@ -239,7 +239,7 @@ export async function link(domain, name, target) {
     return {status: false, result: `Target you entered is not valid: ${target}!`};
   }
   const owner = await getOwner(domain, name);
-  if (owner.status === false || owner.result !== getWalletAddress()) {
+  if (owner.status === false || owner.result.wallet !== getWalletAddress()) {
     return {status: false, result: `Can only operate names belong to you!`};
   }
 
@@ -276,7 +276,7 @@ export async function unlink(domain, name) {
     return {status: false, result: 'You should have at least 0.01$AR in wallet to pay for network fee!'};
   }
   const owner = await getOwner(domain, name);
-  if (owner.status === false || owner.result !== getWalletAddress()) {
+  if (owner.status === false || owner.result.wallet !== getWalletAddress()) {
     return {status: false, result: `Can only operate names belong to you!`};
   }
 
@@ -301,7 +301,7 @@ export async function unlink(domain, name) {
   return {status, result};
 }
 
-export async function getOwner(user, domain) {
+export async function getOwner(domain, name) {
   if (!polarisContract) {
     return {status: false, result: 'Please connect contract first!'};
   }
@@ -313,7 +313,7 @@ export async function getOwner(user, domain) {
       function: 'getOwner',
       params: {
         domain,
-        user
+        name
       }
     })).result;
   } catch (err) {

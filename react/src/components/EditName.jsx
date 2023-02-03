@@ -39,7 +39,7 @@ export const EditName = (props) => {
 
   const OnSetTarget = async () => {
     var ret;
-    if (currentTarget === '' || currentTarget === undefined) {
+    if (currentTarget === '' || currentTarget === undefined || currentTarget === null) {
       ret = await unlink(props.domain, props.name);
     } else {
       ret = await link(props.domain, props.name, currentTarget);

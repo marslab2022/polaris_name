@@ -9,7 +9,7 @@ const centerStyle = {
   display: 'flex', 
   justifyContent: 'center', 
   alignItems: 'center',
-  margin: '2rem'
+  margin: '2.5rem'
 };
 
 export const Home = (props) => {
@@ -28,7 +28,8 @@ export const Home = (props) => {
   };
 
   const onClickEnter = async () => {
-    if (!isWellFormattedAddress(domainNameList[domain][name])) {
+    console.log(domainNameList);
+    if (!domainNameList[domain][name] || !isWellFormattedAddress(domainNameList[domain][name]['target'])) {
       return {status: false, result: `${name}.${domain} not registered or link not set!`};
     }
 
@@ -58,7 +59,7 @@ export const Home = (props) => {
           <AutoComplete
             data={Object.keys(domainNameList[domain])}
             onChange={setName}
-            style={{ width: 300 }}
+            style={{ width: 320 }}
             renderMenuItem={item => {return (<div>{item}</div>);}}
           />
         </div>

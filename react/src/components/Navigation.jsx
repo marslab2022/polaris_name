@@ -3,21 +3,19 @@ import { useLocation } from 'react-router-dom';
 import { WalletSelectButton } from './WalletSelectButton/WalletSelectButton';
 import { Navbar, Nav } from 'rsuite';
 import HomeIcon from '@rsuite/icons/legacy/Home';
-import AddIcon from '@rsuite/icons/AddOutline';
 import MyIcon from '@rsuite/icons/legacy/Book';
-import AboutIcon from '@rsuite/icons/legacy/Question';
 import ContactIcon from '@rsuite/icons/legacy/AddressBook';
 import TwitterIcon from '@rsuite/icons/legacy/Twitter';
 import GithubIcon from '@rsuite/icons/legacy/Github';
 import EmailIcon from '@rsuite/icons/Email';
-import MoneyIcon from '@rsuite/icons/legacy/Bank';
+import NavLogo from './NavLogo.png';
 
 export const Navigation = (props) => {
   return (<>
     <div>
       <Navbar appearance='subtle'>
         <Navbar.Brand href="#">
-          Polaris Name
+          <img src={NavLogo} style={{height: '1.5rem'}} />
         </Navbar.Brand>
         <Nav>
           <Nav.Menu title="Menu">
