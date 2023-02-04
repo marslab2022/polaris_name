@@ -18,39 +18,52 @@ LoggerFactory.INST.logLevel('error');
   );
   const walletAddress = await arweave.wallets.jwkToAddress(walletJwk);
   
-  // deploy TAR pst
-  const wrcSrc = fs.readFileSync(path.join(__dirname, '../pkg/erc20-contract_bg.wasm'));
+  // deploy PNT token
+  const wrcSrc = fs.readFileSync(path.join(__dirname, '../pkg/wrc20/erc20-contract_bg.wasm'));
 
-  const tarInit = {
-    symbol: 'TAR',
-    name: 'ThetAR exchange pst',
-    decimals: 5,
-    totalSupply: 2200000000000,
+  const pntInit = {
+    symbol: 'PNT',
+    name: 'Polaris Name Token',
+    decimals: 0,
+    totalSupply: 1000000000,
     balances: {
-      [walletAddress]: 2200000000000,
+      [walletAddress]: 1000000000,
     },
     allowances: {},
-    owner: walletAddress,
+    owner: walletAddress
   };
 
-  const tarTxId = (await warp.createContract.deploy({
+  const pntTxId = (await warp.createContract.deploy({
     wallet: walletJwk,
-    initState: JSON.stringify(tarInit),
+    initState: JSON.stringify(pntInit),
     src: wrcSrc,
-    wasmSrcCodeDir: path.join(__dirname, '../src/wrc-20_fixed_supply'),
-    wasmGlueCode: path.join(__dirname, '../pkg/erc20-contract.js'),
+    wasmSrcCodeDir: path.join(__dirname, '../src/wrc20/wrc-20_fixed_supply'),
+    wasmGlueCode: path.join(__dirname, '../pkg/wrc20/erc20-contract.js'),
   })).contractTxId;
 
-  // deploy thetAR contract
-  const contractSrc = fs.readFileSync(path.join(__dirname, '../dist/thetAR/contract.js'), 'utf8');
+  // deploy Polaris template nft
+  const nftSrc = fs.readFileSync(path.join(__dirname, '../pkg/atomic_nft/atomic-nft-contract_bg.wasm'));
+
+  const nftTx = await warp.createContract.deploy({
+    wallet: walletJwk,
+    initState: JSON.stringify({}),
+    src: nftSrc,
+    wasmSrcCodeDir: path.join(__dirname, '../src/atomic_nft'),
+    wasmGlueCode: path.join(__dirname, '../pkg/atomic_nft/atomic-nft-contract.js'),
+    data: { 'Content-Type': 'text/json', body: 'undefined' }
+  }, true);
+  const nftSrcTxId = nftTx.srcTxId;
+
+  // deploy Polaris name contract
+  const contractSrc = fs.readFileSync(path.join(__dirname, '../dist/contract.js'), 'utf8');
   const initFromFile = JSON.parse(
-    fs.readFileSync(path.join(__dirname, '../dist/thetAR/initial-state.json'), 'utf8')
+    fs.readFileSync(path.join(__dirname, '../dist/polaris_name/initial-state.json'), 'utf8')
   );
   const contractInit = {
     ...initFromFile,
     owner: walletAddress,
-    tokenSrcTxs: [SrcTxId],
-    thetarTokenAddress: tarTxId,
+    nftSrcTxId: nftSrcTxId,
+    tokenAddress: pntTxId,
   };
 
   const contractTxId = (await warp.createContract.deploy({
@@ -59,39 +72,11 @@ LoggerFactory.INST.logLevel('error');
     src: contractSrc,
   })).contractTxId;
   
-  // deploy faucet contract
-  const faucetSrc = fs.readFileSync(path.join(__dirname, '../dist/faucet/contract.js'), 'utf8');
-  const faucetInitFromFile = JSON.parse(
-    fs.readFileSync(path.join(__dirname, '../dist/faucet/initial-state.json'), 'utf8')
-  );
-  const faucetContractInit = {
-    ...faucetInitFromFile,
-    owner: walletAddress,
-    tokenAddress: tarTxId,
-    price: 0.0000001
-  };
-  const faucetContractTxId = (await warp.createContract.deploy({
-    wallet: walletJwk,
-    initState: JSON.stringify(faucetContractInit),
-    src: faucetSrc,
-  })).contractTxId;
-
-  // add funds to faucet
-  const tarContract = warp.contract(tarTxId);
-  tarContract.connect(walletJwk);
-  await tarContract.writeInteraction(
-    {
-      function: 'approve',
-      spender: faucetContractTxId,
-      amount: 400000000000
-    }
-  );
-
   console.log('wallet address: ', walletAddress);
-  console.log('txid: ', contractTxId);
-  console.log('TAR txid: ', tarTxId);
-  console.log('faucet txid: ', faucetContractTxId);
-  fs.writeFileSync(path.join(__dirname, 'thetAR-txid.json'), contractTxId);
-  fs.writeFileSync(path.join(__dirname, 'tar-txid.json'), tarTxId);
-  fs.writeFileSync(path.join(__dirname, 'faucet-txid.json'), tarTxId);
+  console.log('polaris txid: ', contractTxId);
+  console.log('PNT txid: ', pntTxId);
+  console.log('NFT src txid: ', nftSrcTxId);
+  fs.writeFileSync(path.join(__dirname, 'polaris-txid.json'), contractTxId);
+  fs.writeFileSync(path.join(__dirname, 'pnt-txid.json'), pntTxId);
+  fs.writeFileSync(path.join(__dirname, 'nft-srcid.json'), nftSrcTxId);
 })();

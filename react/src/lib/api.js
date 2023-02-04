@@ -10,17 +10,17 @@ import { stat } from 'fs';
 LoggerFactory.INST.logLevel('error');
 
 // addresses
-const nftSrcTxId = 'aqAoCTtjDZmqwIsVdz4fnyXBz-vbKCCK3jiB6UOvK4s';
-const polarisContractAddress = 'XM5RtFL-YA8nhwLeNRJEdoF8sknEW_sWpizIHOZyWNY';
-const ownerWalletAdrress = 'u5mmTkpqlvmRiJNsB__zXmMKuKZqQyjGf72CVX7-BBU';
-export const pntAddress = "ePNak8UbmlpP3bk1pDruOHRN46kaGEmJxz4fZM-z2vg";
+const nftSrcTxId = 'q2FQDmGclkwiiuAvWOc1cAuUUZ_Px65CB4k5ggoYADs';
+const polarisContractAddress = 'GYMOnUEpGlEcbDBU0CFl7kgfv9i5Jw2qC-XR3She0-o';
+const ownerWalletAdrress = 'g-HsAODsIOoTG4MgvmeOTmqyA_RKMupujUuok-nrmkg';
+export const pntAddress = "wWpwvpGf7-Vmd6AlK4V_mXWu9amr9PpacsNgvp7eNiQ";
 
-const warp = WarpFactory.forLocal(1984);
+// const warp = WarpFactory.forLocal(1984);
 // const warp = WarpFactory.forTestnet();
-// const warp = WarpFactory.forMainnet({
-//   dbLocation: './cache/warp'+(new Date().getTime()).toString(), 
-//   inMemory: false
-// });
+const warp = WarpFactory.forMainnet({
+  dbLocation: './cache/warp'+(new Date().getTime()).toString(), 
+  inMemory: false
+});
 const arweave = warp.arweave;
 let walletAddress = undefined;
 export let isConnectWallet = false;

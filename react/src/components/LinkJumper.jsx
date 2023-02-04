@@ -21,7 +21,12 @@ export const LinkJumper = (props) => {
       case 'page':
         window.location.href = `https://www.arweave.net/${target}`;
         break;
-    
+      case 'wallet':
+        window.location.href = `https://viewblock.io/arweave/address/${target}`;
+        break;
+      case 'token':
+        window.location.href = `https://arweave.net/_tfx0j4nhCwRDYmgU6XryFDceF52ncPKVivot5ijwdQ/#/${target}`;
+        break;
       default:
         return {status: false, result: `Dedicated page for domain '${domain}' not implemented yet!`};
     }
