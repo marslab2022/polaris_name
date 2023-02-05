@@ -324,7 +324,7 @@ export async function getOwner(domain, name) {
   return {status, result};
 }
 
-export async function getName(user, domain) {
+export async function getName(tx) {
   if (!polarisContract) {
     return {status: false, result: 'Please connect contract first!'};
   }
@@ -335,8 +335,7 @@ export async function getName(user, domain) {
     result = (await polarisContract.viewState({
       function: 'getName',
       params: {
-        domain,
-        user
+        tx
       }
     })).result;
   } catch (err) {

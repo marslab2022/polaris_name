@@ -27,7 +27,6 @@ export type burnParam = unlinkParam;
 
 export interface getNameParam {
   tx: string;
-  domain: string;
 }
 
 export interface getTargetResult {

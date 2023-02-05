@@ -1,5 +1,6 @@
 import React from 'react';
 import { AutoComplete, Dropdown } from 'rsuite';
+import { useNavigate } from 'react-router-dom';
 import { getDomainNames, isWellFormattedAddress } from '../lib/api';
 import { PageLoading } from './PageLoading/PageLoading';
 import { SubmitButton } from './SubmitButton/SubmitButton';
@@ -13,6 +14,8 @@ const centerStyle = {
 };
 
 export const Home = (props) => {
+  const navigate = useNavigate();
+
   const [domain, setDomain] = React.useState('page');
   const [name, setName] = React.useState('');
   const [domainNameList, setDomainNameList] = React.useState();
@@ -33,7 +36,7 @@ export const Home = (props) => {
       return {status: false, result: `${name}.${domain} not registered or link not set!`};
     }
 
-    window.location.href = `/#/${domain}/${name}`;
+    navigate(`/${domain}/${name}`);
     return {status: true, result: `Redirecting to ${name}.${domain} ...`};
   };
 
