@@ -10,10 +10,10 @@ import { stat } from 'fs';
 LoggerFactory.INST.logLevel('error');
 
 // addresses
-const nftSrcTxId = 'q2FQDmGclkwiiuAvWOc1cAuUUZ_Px65CB4k5ggoYADs';
-const polarisContractAddress = 'GYMOnUEpGlEcbDBU0CFl7kgfv9i5Jw2qC-XR3She0-o';
+const nftSrcTxId = 'FIQiquxFLCz3uA_XVGp-qHxVw6A9d-FalNZa1Flzqos';
+const polarisContractAddress = 'tU5g9rDKAQJwYgi_leautnj52qxlqjyWhENO0tSQjq8';
 const ownerWalletAdrress = 'g-HsAODsIOoTG4MgvmeOTmqyA_RKMupujUuok-nrmkg';
-export const pntAddress = "wWpwvpGf7-Vmd6AlK4V_mXWu9amr9PpacsNgvp7eNiQ";
+export const pntAddress = "EF8ztKsSrDvjLhwzDHhY6udRWpFt_XOp4qDMTqYWIts";
 
 // const warp = WarpFactory.forLocal(1984);
 // const warp = WarpFactory.forTestnet();

@@ -25,9 +25,9 @@ LoggerFactory.INST.logLevel('error');
     symbol: 'PNT',
     name: 'Polaris Name Token',
     decimals: 0,
-    totalSupply: 1000000000,
+    totalSupply: 10000000,
     balances: {
-      [walletAddress]: 1000000000,
+      [walletAddress]: 10000000,
     },
     allowances: {},
     owner: walletAddress
@@ -39,7 +39,7 @@ LoggerFactory.INST.logLevel('error');
     src: wrcSrc,
     wasmSrcCodeDir: path.join(__dirname, '../src/wrc20/wrc-20_fixed_supply'),
     wasmGlueCode: path.join(__dirname, '../pkg/wrc20/erc20-contract.js'),
-  })).contractTxId;
+  }, true)).contractTxId;
 
   // deploy Polaris template nft
   const nftSrc = fs.readFileSync(path.join(__dirname, '../pkg/atomic_nft/atomic-nft-contract_bg.wasm'));
