@@ -150,6 +150,12 @@ export async function mint(nftAddress, name) {
   if (!minARBalanceCheck('0.01')) {
     return {status: false, result: 'You should have at least 0.01$AR in wallet to pay for network fee!'};
   }
+  const price = calcPrice(name);
+  const balanceRet = await getBalance(pntAddress);
+  if (balanceRet.status && balanceRet.result < price) {
+    return {status: false, result: 'Insuffient funds of PNT to mint name!'};
+  }
+  
   const txRet = await arweave.transactions.getStatus(nftAddress);
   if (txRet.status !== 200) {
     return {status: false, result: 'Please wait for NFT to be mined by Arweave and retry!'};
@@ -157,13 +163,6 @@ export async function mint(nftAddress, name) {
   const confirmations = txRet.confirmed.number_of_confirmations;
   if (confirmations === undefined || confirmations < 10) {
     return {status: false, result: `Please wait for network confirmation: ${confirmations} / 10`};
-  }
-
-  const price = calcPrice(name);
-
-  const balanceRet = await getBalance(pntAddress);
-  if (balanceRet.status && balanceRet.result < price) {
-    return {status: false, result: 'Insuffient funds of PNT to mint name!'};
   }
 
   let status = true;
