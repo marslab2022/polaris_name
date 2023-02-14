@@ -11,7 +11,7 @@ LoggerFactory.INST.logLevel('error');
 
 (async () => {
   console.log('running...');
-  const SrcTxId = 'jxB_n6cJo4s-a66oMIGACUjERJXQfc3IoIMV3_QK-1w';
+  const nftSrcTxId = 'FIQiquxFLCz3uA_XVGp-qHxVw6A9d-FalNZa1Flzqos';
 
   const walletJwk = JSON.parse(
     fs.readFileSync(path.join(__dirname, 'key-file.json'), 'utf8')
@@ -40,19 +40,6 @@ LoggerFactory.INST.logLevel('error');
     wasmSrcCodeDir: path.join(__dirname, '../src/wrc20/wrc-20_fixed_supply'),
     wasmGlueCode: path.join(__dirname, '../pkg/wrc20/erc20-contract.js'),
   }, true)).contractTxId;
-
-  // deploy Polaris template nft
-  const nftSrc = fs.readFileSync(path.join(__dirname, '../pkg/atomic_nft/atomic-nft-contract_bg.wasm'));
-
-  const nftTx = await warp.createContract.deploy({
-    wallet: walletJwk,
-    initState: JSON.stringify({}),
-    src: nftSrc,
-    wasmSrcCodeDir: path.join(__dirname, '../src/atomic_nft'),
-    wasmGlueCode: path.join(__dirname, '../pkg/atomic_nft/atomic-nft-contract.js'),
-    data: { 'Content-Type': 'text/json', body: 'undefined' }
-  }, true);
-  const nftSrcTxId = nftTx.srcTxId;
 
   // deploy Polaris name contract
   const contractSrc = fs.readFileSync(path.join(__dirname, '../dist/contract.js'), 'utf8');

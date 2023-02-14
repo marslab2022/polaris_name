@@ -73,7 +73,9 @@ export async function getBalance(tokenAddress) {
     if (tokenAddress === 'ar') {
       result = arweave.ar.winstonToAr(await arweave.wallets.getBalance(getWalletAddress()));
     } else {
-      result = await (await warp.contract(tokenAddress).viewState({
+      const token = new intelliContract(warp);
+      token.connectContract(tokenAddress);
+      result = await (await token.viewState({
         function: 'balanceOf',
         target: getWalletAddress(),
       })).result.balance;
