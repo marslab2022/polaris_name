@@ -47,6 +47,10 @@ export interface getOwnerResult {
   wallet: string;
 }
 
+export interface getNFTSetResult {
+  nftSet: string[];
+}
+
 // common interfaces
 
 export interface Action {
@@ -94,7 +98,8 @@ export type Function =
     'getName' |
     'getDomainNames' |
     'getOwnerResult' |
-    'getOwner';
+    'getOwner' |
+    'getNFTSet';
 
 export type Params = 
   newDomainParam |

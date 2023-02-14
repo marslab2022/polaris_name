@@ -8,6 +8,7 @@ import { getTarget } from './actions/read/getTarget';
 import * as type from './types/types';
 import { getDomainNames } from './actions/read/getDomainNames';
 import { getOWner } from './actions/read/getOwner';
+import { getNFTSet } from './actions/read/getNFTSet';
 
 declare const ContractError;
 
@@ -33,6 +34,8 @@ export async function handle(state: type.State, action: type.Action): Promise<ty
       return await getDomainNames(state, action);
     case 'getOwner':
       return await getOWner(state, action);
+    case 'getNFTSet':
+      return await getNFTSet(state, action);
     default:
       throw new ContractError(`No function supplied or function not recognised: "${func}"`);
   }
