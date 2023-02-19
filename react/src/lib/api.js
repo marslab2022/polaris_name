@@ -92,7 +92,7 @@ export async function deployNFT(domain, name) {
   if (!isConnectWallet) {
     return {status: false, result: 'Please connect your wallet first!'};
   }
-  if (!minARBalanceCheck('0.01')) {
+  if (await minARBalanceCheck('0.01') === false) {
     return {status: false, result: 'You should have at least 0.01$AR in wallet to pay for network fee!'};
   }
 
@@ -147,7 +147,7 @@ export async function mint(nftAddress, name) {
   if (!isWellFormattedAddress(nftAddress)) {
     return {status: false, result: 'Atomic NFT address not valid!'};
   }
-  if (!minARBalanceCheck('0.01')) {
+  if (await minARBalanceCheck('0.01') === false) {
     return {status: false, result: 'You should have at least 0.01$AR in wallet to pay for network fee!'};
   }
   const price = calcPrice(name);
@@ -198,7 +198,7 @@ export async function burn(domain, name) {
   if (!polarisContract) {
     return {status: false, result: 'Please connect contract first!'};
   }
-  if (!minARBalanceCheck('0.01')) {
+  if (await minARBalanceCheck('0.01') === false) {
     return {status: false, result: 'You should have at least 0.01$AR in wallet to pay for network fee!'};
   }
   const owner = await getOwner(domain, name);
@@ -233,7 +233,7 @@ export async function link(domain, name, target) {
   if (!polarisContract) {
     return {status: false, result: 'Please connect contract first!'};
   }
-  if (!minARBalanceCheck('0.01')) {
+  if (await minARBalanceCheck('0.01') === false) {
     return {status: false, result: 'You should have at least 0.01$AR in wallet to pay for network fee!'};
   }
   if (!isWellFormattedAddress(target)) {
@@ -273,7 +273,7 @@ export async function unlink(domain, name) {
   if (!polarisContract) {
     return {status: false, result: 'Please connect contract first!'};
   }
-  if (!minARBalanceCheck('0.01')) {
+  if (await minARBalanceCheck('0.01') === false) {
     return {status: false, result: 'You should have at least 0.01$AR in wallet to pay for network fee!'};
   }
   const owner = await getOwner(domain, name);
