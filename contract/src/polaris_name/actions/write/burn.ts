@@ -29,7 +29,7 @@ export const burn = async (
   );
 
   // burn name
-  state.nftSet = state.nftSet.filter(addr=>addr!==nftAddress);
+  delete state.nftSet[nftAddress];
   delete state.nameUserMap[domain][name];
   delete state.targetNameMap[info.target];
 

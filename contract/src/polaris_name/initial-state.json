@@ -1,11 +1,11 @@
 {
   "owner": "replace with owner wallet address",
-  "nftSet": [],
   "name": "Polaris name",
   "description": "Permanent name service in Arweave network",
-
   "nftSrcTxId": "replace with nft src tx id",
   "tokenAddress": "replace with PNT address",
+  "nftSet": {},
+  "attributes": [{"length": "number"}],
   "nameUserMap": {
     "page": {},
     "wallet": {},

@@ -222,7 +222,7 @@ describe('Testing Polaris Module', () => {
   it('test function - mint', async () => {
     await Initialize();
     const txId = await mint('page', 'polaris');
-    expect((await userContract.readState()).cachedValue.state['nftSet'][0]).toEqual(txId);
+    expect((await userContract.readState()).cachedValue.state['nftSet'][txId]).toEqual({length: 7});
     expect((await userContract.readState()).cachedValue.state['nameUserMap']['page']).toEqual({
       polaris:{
         nftAddress:txId,
@@ -235,7 +235,7 @@ describe('Testing Polaris Module', () => {
   it('test function - mint - invalid domain', async () => {
     await Initialize();
     const txId = await mint('invalid', 'polaris');
-    expect((await userContract.readState()).cachedValue.state['nftSet'].length).toEqual(0);
+    expect((await userContract.readState()).cachedValue.state['nftSet']).toEqual({});
   });
 
   it('test function - mint - invalid name', async () => {
@@ -244,7 +244,7 @@ describe('Testing Polaris Module', () => {
     await mint('page', 'INVALID');
     await mint('page', '');
     await mint('page', contractTxId.toLowerCase());
-    expect((await userContract.readState()).cachedValue.state['nftSet'].length).toEqual(0);
+    expect((await userContract.readState()).cachedValue.state['nftSet']).toEqual({});
     expect((await userContract.readState()).cachedValue.state['nameUserMap']['page']).toEqual({});
   });
 
@@ -256,7 +256,7 @@ describe('Testing Polaris Module', () => {
       target: walletAddress
     })).result['balance']).toEqual(10000 - 3);
     await burn('page', 'polaris');
-    expect((await userContract.readState()).cachedValue.state['nftSet'].length).toEqual(0);
+    expect((await userContract.readState()).cachedValue.state['nftSet']).toEqual({});
     expect((await userContract.readState()).cachedValue.state['nameUserMap']['page']).toEqual({});
     expect((await userPnt.viewState({
       function: 'balanceOf',
@@ -283,7 +283,7 @@ describe('Testing Polaris Module', () => {
       function: 'transfer', to: customWalletAddress, amount: 1 
     });
     await burn('page', 'polaris');
-    expect((await userContract.readState()).cachedValue.state['nftSet'][0]).toEqual(txId);
+    expect((await userContract.readState()).cachedValue.state['nftSet'][txId]).toEqual({length: 7});
     expect((await userContract.readState()).cachedValue.state['nameUserMap']['page']).toEqual({
       polaris:{
         nftAddress:txId,

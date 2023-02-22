@@ -1,3 +1,8 @@
+export interface attributeInterface {
+  name: string;
+  type: string; // number | boolean | string
+}
+
 export interface newDomainParam {
   domain: string;
 }
@@ -48,7 +53,11 @@ export interface getOwnerResult {
 }
 
 export interface getNFTSetResult {
-  nftSet: string[];
+  [address: string]: Object; // address->attributes
+}
+
+export interface getAttributesResult {
+  attributes: attributeInterface[];
 }
 
 // common interfaces
@@ -68,7 +77,10 @@ export interface State {
   name: string;
   description: string;
   nftSrcTxId: string;
-  nftSet: string[];
+  nftSet: {
+    [address: string]: Object; // address->attributes
+  };
+  attributes: attributeInterface[];
   tokenAddress: string;
   nameUserMap: {
     [domain: string]: {
@@ -99,7 +111,8 @@ export type Function =
     'getDomainNames' |
     'getOwnerResult' |
     'getOwner' |
-    'getNFTSet';
+    'getNFTSet' |
+    'getAttributes';
 
 export type Params = 
   newDomainParam |
@@ -116,6 +129,8 @@ export type Result =
   getTargetResult |
   getNameResult |
   getDomainNamesResult |
-  getOwnerResult;
+  getOwnerResult |
+  getAttributesResult |
+  getNFTSetResult;
     
 export type ContractResult = { state: State } | { result: Result };

@@ -12,6 +12,10 @@ export const mint = async (
     isAddress(nftAddress),
     'nftAddress is not valid!'
   );
+  contractAssert(
+    !state.nftSet.hasOwnProperty(nftAddress),
+    'nftAddress has already been added to polaris contract!'
+  );
   
   const tx = await SmartWeave.unsafeClient.transactions.get(nftAddress);
 
@@ -99,7 +103,10 @@ export const mint = async (
   );
 
   // add nft address to polaris name contract state
-  state.nftSet.push(nftAddress);
+  state.nftSet[nftAddress] = {
+    length: name.length
+  };
+
   state.nameUserMap[domain][name] = {
     nftAddress: nftAddress,
     target: undefined,
