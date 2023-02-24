@@ -104,7 +104,8 @@ export const mint = async (
 
   // add nft address to polaris name contract state
   state.nftSet[nftAddress] = {
-    length: name.length
+    length: name.length,
+    domain: domain
   };
 
   state.nameUserMap[domain][name] = {

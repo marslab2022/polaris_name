@@ -5,11 +5,23 @@
   "nftSrcTxId": "replace with nft src tx id",
   "tokenAddress": "replace with PNT address",
   "nftSet": {},
-  "attributes": [{"length": "number"}],
+  "attributes": [
+    {
+      "name": "length",
+      "type": "number"
+    }, 
+    {
+      "name": "domain",
+      "type": "enum",
+      "enums": ["page", "ar", "token", "nft", "collectible"]
+    }
+  ],
   "nameUserMap": {
     "page": {},
-    "wallet": {},
-    "token": {}
+    "ar": {},
+    "token": {},
+    "nft": {},
+    "collectible": {}
   },
   "targetNameMap": {}
 }

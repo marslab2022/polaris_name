@@ -30,8 +30,8 @@ export const EditName = (props) => {
     switch (props.domain) {
       case 'page':
         return 'transaction ID of your page';
-      case 'wallet':
-        return 'wallet address';
+      case 'ar':
+        return 'Arweave wallet address';
       default:
         return 'transaction ID';
     }

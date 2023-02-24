@@ -98,8 +98,8 @@ export async function deployNFT(domain, name) {
 
   const initialState = {
     description: `Polaris domain name: ${name}.${domain}`,
-    symbol: 'PNA',
-    name: 'Polaris Name Atomic-nft',
+    symbol: `${name}.${domain}`,
+    name: `${name}.${domain}`,
     decimals: 0,
     totalSupply: 1,
     balances: {

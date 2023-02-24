@@ -1,6 +1,7 @@
 export interface attributeInterface {
   name: string;
-  type: string; // number | boolean | string
+  type: 'number' | 'boolean' | 'enum';
+  enums?: string[]; // valid if type === 'enum'
 }
 
 export interface newDomainParam {

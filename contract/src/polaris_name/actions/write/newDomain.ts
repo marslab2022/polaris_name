@@ -22,6 +22,11 @@ export const newDomain = async (
   );
 
   state.nameUserMap[domain] = {};
+  for (const attribute of state.attributes) {
+    if (attribute.name === 'domain') {
+      attribute.enums.push(domain);
+    }
+  }
 
   return { state };
 };

@@ -21,7 +21,7 @@ export const LinkJumper = (props) => {
       case 'page':
         window.location.href = `https://www.arweave.net/${target}`;
         break;
-      case 'wallet':
+      case 'ar':
         window.location.href = `https://viewblock.io/arweave/address/${target}`;
         break;
       case 'token':

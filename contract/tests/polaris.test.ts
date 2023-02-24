@@ -222,7 +222,8 @@ describe('Testing Polaris Module', () => {
   it('test function - mint', async () => {
     await Initialize();
     const txId = await mint('page', 'polaris');
-    expect((await userContract.readState()).cachedValue.state['nftSet'][txId]).toEqual({length: 7});
+    expect((await userContract.readState()).cachedValue.state['nftSet'][txId]).toEqual({length: 7, domain: 'page'});
+    expect((await userContract.readState()).cachedValue.state['nftSet'][txId]).toEqual({length: 7, domain: 'page'});
     expect((await userContract.readState()).cachedValue.state['nameUserMap']['page']).toEqual({
       polaris:{
         nftAddress:txId,
@@ -283,7 +284,7 @@ describe('Testing Polaris Module', () => {
       function: 'transfer', to: customWalletAddress, amount: 1 
     });
     await burn('page', 'polaris');
-    expect((await userContract.readState()).cachedValue.state['nftSet'][txId]).toEqual({length: 7});
+    expect((await userContract.readState()).cachedValue.state['nftSet'][txId]).toEqual({length: 7, domain: 'page'});
     expect((await userContract.readState()).cachedValue.state['nameUserMap']['page']).toEqual({
       polaris:{
         nftAddress:txId,
@@ -482,6 +483,8 @@ describe('Testing Polaris Module', () => {
     });
 
     expect((await userContract.readState()).cachedValue.state['nameUserMap']['newdomain']).toEqual({});
+    const enums = (await userContract.readState()).cachedValue.state['attributes'][1].enums;
+    expect(enums[enums.length-1]).toEqual('newdomain');
   });
 
   it('test function - newDomain - permission check', async () => {
